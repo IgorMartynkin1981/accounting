@@ -6,6 +6,8 @@ public class CommandLineManager {
     FileManager fileManager = new FileManager();
     DataReconciliation dataReconciliation = new DataReconciliation();
     InformationDatabase informationDatabase = new InformationDatabase();
+    MonthlyReports monthlyReports = new MonthlyReports();
+    YearlyReports yearlyReports = new YearlyReports();
 
     public void printMenuAndHandleCommand() {
         while (true) {
@@ -16,15 +18,15 @@ public class CommandLineManager {
             } else if (command == 2) {
                 fileManager.readAndWriteFileContentYear();
             } else if (command == 3) {
-                if (informationDatabase.monthlyReports.isEmpty() || informationDatabase.yearlyReports.isEmpty()){
+                if (informationDatabase.monthlyBase.isEmpty() || informationDatabase.yearlyBase.isEmpty()){
                     System.out.println("Загрузите данные");
                 } else {
                     dataReconciliation.dataReconciliationMonth();
                 }
             } else if (command == 4) {
-                System.out.println("Вывести информацию о всех месячных отчётах");
+                monthlyReports.printMaxMonthlyReports();
             } else if (command == 5) {
-                System.out.println("Вывести информацию о годовом отчёте");
+                yearlyReports.printYearlyReports();
             } else if (command == 0) {
                 System.out.println("Выход");
                 break;

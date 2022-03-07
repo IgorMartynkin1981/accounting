@@ -33,13 +33,13 @@ public class FileManager {
     void writeMonthBases(ArrayList<String> stringMonthBase) {
         for (int i = 0; i < stringMonthBase.size(); i++) {
             String[] readLine = stringMonthBase.get(i).split(",");
-            MonthlyReport monthlyReport = new MonthlyReport(
+            Monthly monthlyReport = new Monthly(
                     Integer.parseInt(readLine[0]),
                     readLine[1],
                     Boolean.parseBoolean(readLine[2]),
                     Integer.parseInt(readLine[3]),
                     Integer.parseInt(readLine[4]));
-            informationDatabase.monthlyReports.add(monthlyReport);
+            informationDatabase.monthlyBase.add(monthlyReport);
         }
     }
 
@@ -60,12 +60,12 @@ public class FileManager {
     void writeYearBases(ArrayList<String> stringYearBase) {
         for (int i = 0; i < stringYearBase.size(); i++) {
             String[] readLine = stringYearBase.get(i).split(",");
-            YearlyReport yearlyReport = new YearlyReport(
+            Yearly yearlyReport = new Yearly(
                     2021,
                     Integer.parseInt(readLine[0]),
                     Integer.parseInt(readLine[1]),
                     Boolean.parseBoolean(readLine[2]));
-            informationDatabase.yearlyReports.add(yearlyReport);
+            informationDatabase.yearlyBase.add(yearlyReport);
         }
     }
 
