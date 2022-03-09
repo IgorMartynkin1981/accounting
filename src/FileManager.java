@@ -1,21 +1,21 @@
 import java.util.ArrayList;
 import java.io.*;
 import java.nio.file.*;
+import java.util.Arrays;
 
 public class FileManager {
-    InformationDatabase informationDatabase = new InformationDatabase();
 
     //считываем кол-во файлов в конечной директории
     public int numberOfFilesInFolder(String path) {
         File file = new File(path);
         File[] s = file.listFiles();
+        assert s != null;
         return s.length;
     }
 
     // Обрабатываем информацию с файлов (месячные отчёты)
     void readAndWriteFileContentMonth(){
         ArrayList<String> stringMonthBase = new ArrayList<>();
-        stringMonthBase.clear();
         for (int i = 1; i <= numberOfFilesInFolder("/Users/TTa9IJIbHuk/dev/java-sprint1-hw/resources");
              i++) {
             String content = readFileContentsOrNull("m.20210" + i);
@@ -31,15 +31,15 @@ public class FileManager {
 
     //передаём месячные данные в InformationDatabase
     void writeMonthBases(ArrayList<String> stringMonthBase) {
-        for (int i = 0; i < stringMonthBase.size(); i++) {
-            String[] readLine = stringMonthBase.get(i).split(",");
+        for (String s : stringMonthBase) {
+            String[] readLine = s.split(",");
             Monthly monthlyReport = new Monthly(
                     Integer.parseInt(readLine[0]),
                     readLine[1],
                     Boolean.parseBoolean(readLine[2]),
                     Integer.parseInt(readLine[3]),
                     Integer.parseInt(readLine[4]));
-            informationDatabase.monthlyBase.add(monthlyReport);
+            InformationDatabase.monthlyBase.add(monthlyReport);
         }
     }
 
@@ -47,25 +47,24 @@ public class FileManager {
     //*прописан частный случай, для массового отчёта необходимо добавить обходчик файлов по заданию
     void readAndWriteFileContentYear(){
         ArrayList<String> stringYearBase = new ArrayList<>();
-        stringYearBase.clear();
         String content = readFileContentsOrNull("y.2021");
             if (content != null) {
                 String[] lines = content.split("\\n");
-                for (int j = 1; j < lines.length; j++) stringYearBase.add(lines[j]);
+                stringYearBase.addAll(Arrays.asList(lines).subList(1, lines.length));
             }
         writeYearBases(stringYearBase);
     }
 
     //передаём месячные данные в InformationDatabase
     void writeYearBases(ArrayList<String> stringYearBase) {
-        for (int i = 0; i < stringYearBase.size(); i++) {
-            String[] readLine = stringYearBase.get(i).split(",");
+        for (String s : stringYearBase) {
+            String[] readLine = s.split(",");
             Yearly yearlyReport = new Yearly(
                     2021,
                     Integer.parseInt(readLine[0]),
                     Integer.parseInt(readLine[1]),
                     Boolean.parseBoolean(readLine[2]));
-            informationDatabase.yearlyBase.add(yearlyReport);
+            InformationDatabase.yearlyBase.add(yearlyReport);
         }
     }
 
@@ -73,8 +72,7 @@ public class FileManager {
     String readFileContentsOrNull(String path) {
         Path filePath = Paths.get("resources/", path + ".csv");
         try {
-            String content = Files.readString(filePath);
-            return content;
+            return Files.readString(filePath);
         } catch (IOException e) {
             System.out.println("Невозможно прочитать файл с месячным отчётом. Возможно, файл не находится в нужной директории.");
             return null;

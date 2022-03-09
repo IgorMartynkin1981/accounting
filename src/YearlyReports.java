@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 
 public class YearlyReports {
-    InformationDatabase informationDatabase = new InformationDatabase();
-    ArrayList<Yearly> maxYearlyReports = informationDatabase.yearlyBase;
+   ArrayList<Yearly> maxYearlyReports;
+    {
+        maxYearlyReports = InformationDatabase.yearlyBase;
+    }
 
     void printYearlyReports(){
         System.out.println("Отчёт за " + maxYearlyReports.get(0).year + " год");
@@ -17,12 +19,12 @@ public class YearlyReports {
             for (int i = 1; i<=12; i++) {
                 int maxProfitChek = 0;
                 int maxWasteOfMoneyChek = 0;
-                for (int j = 0; j < maxYearlyReports.size(); j++) {
-                    if (maxYearlyReports.get(j).monthInYear == i) {
-                        if (maxYearlyReports.get(j).is_expenseInYear == false) {
-                            maxProfitChek = maxYearlyReports.get(j).amount;
-                        } else if (maxYearlyReports.get(j).is_expenseInYear == true) {
-                            maxWasteOfMoneyChek = maxYearlyReports.get(j).amount;
+                for (Yearly maxYearlyReport : maxYearlyReports) {
+                    if (maxYearlyReport.monthInYear == i) {
+                        if (!maxYearlyReport.is_expenseInYear) {
+                            maxProfitChek = maxYearlyReport.amount;
+                        } else {
+                            maxWasteOfMoneyChek = maxYearlyReport.amount;
                         }
                     }
                 }
@@ -39,10 +41,10 @@ public class YearlyReports {
         if (!maxYearlyReports.isEmpty()) {
             int averageWasteOfMoneyChek = 0;
             int counter = 0;
-            for (int j = 0; j < maxYearlyReports.size(); j++) {
-                if (maxYearlyReports.get(j).is_expenseInYear == true) {
-                    averageWasteOfMoneyChek += maxYearlyReports.get(j).amount;
-                    counter ++;
+            for (Yearly maxYearlyReport : maxYearlyReports) {
+                if (maxYearlyReport.is_expenseInYear) {
+                    averageWasteOfMoneyChek += maxYearlyReport.amount;
+                    counter++;
                 }
             }
             if (averageWasteOfMoneyChek >0) {
@@ -57,10 +59,10 @@ public class YearlyReports {
         if (!maxYearlyReports.isEmpty()) {
             int averageIncomeChek = 0;
             int counter = 0;
-            for (int j = 0; j < maxYearlyReports.size(); j++) {
-                if (maxYearlyReports.get(j).is_expenseInYear == false) {
-                    averageIncomeChek += maxYearlyReports.get(j).amount;
-                    counter ++;
+            for (Yearly maxYearlyReport : maxYearlyReports) {
+                if (!maxYearlyReport.is_expenseInYear) {
+                    averageIncomeChek += maxYearlyReport.amount;
+                    counter++;
                 }
             }
             if (averageIncomeChek >0) {

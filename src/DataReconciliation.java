@@ -2,30 +2,35 @@ import java.util.ArrayList;
 
 public class DataReconciliation {
 
-    InformationDatabase informationDatabase = new InformationDatabase();
     ArrayList<String> errorsReport = new ArrayList<>();
+    ArrayList<Yearly> yearlyBase;
+    ArrayList<Monthly> monthlyBase;
+    {
+        yearlyBase = InformationDatabase.yearlyBase;
+        monthlyBase = InformationDatabase.monthlyBase;
+    }
 
     void dataReconciliationMonth() {
-        for (int i = 0; i < informationDatabase.yearlyBase.size(); i++) {
+        for (Yearly yearly : yearlyBase) {
             int sumAmountMonth = 0;
-            for (int j = 0; j < informationDatabase.monthlyBase.size(); j++) {
-                if ((informationDatabase.monthlyBase.get(j).month
-                        == informationDatabase.yearlyBase.get(i).monthInYear)
-                    &&(informationDatabase.monthlyBase.get(j).is_expense
-                        == informationDatabase.yearlyBase.get(i).is_expenseInYear)){
-                    sumAmountMonth += (informationDatabase.monthlyBase.get(j).quantity
-                            * informationDatabase.monthlyBase.get(j).sum_of_one);
+            for (Monthly monthly : monthlyBase) {
+                if ((monthly.month
+                        == yearly.monthInYear)
+                        && (monthly.is_expense
+                        == yearly.is_expenseInYear)) {
+                    sumAmountMonth += (monthly.quantity
+                            * monthly.sum_of_one);
                 }
             }
-            if (informationDatabase.yearlyBase.get(i).amount != sumAmountMonth) {
+            if (yearly.amount != sumAmountMonth) {
                 String sellPay;
-                if (informationDatabase.yearlyBase.get(i).is_expenseInYear == true) {
+                if (yearly.is_expenseInYear) {
                     sellPay = "spending";
                 } else {
                     sellPay = "income";
                 }
-                errorsReport.add("Месяц " + informationDatabase.yearlyBase.get(i).monthInYear
-                        + ", статья " +  sellPay);
+                errorsReport.add("Месяц " + yearly.monthInYear
+                        + ", статья " + sellPay);
             }
         }
         if (errorsReport.isEmpty()){

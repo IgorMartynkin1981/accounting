@@ -10,8 +10,4 @@ public class Yearly {
         this.amount = amount;
         this.is_expenseInYear = is_expenseInYear;
     }
-
-    int getMonthInYear(){
-        return monthInYear;
-    }
 }

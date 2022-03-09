@@ -5,7 +5,6 @@ public class CommandLineManager {
     Scanner scanner = new Scanner(System.in);
     FileManager fileManager = new FileManager();
     DataReconciliation dataReconciliation = new DataReconciliation();
-    InformationDatabase informationDatabase = new InformationDatabase();
     MonthlyReports monthlyReports = new MonthlyReports();
     YearlyReports yearlyReports = new YearlyReports();
 
@@ -18,7 +17,7 @@ public class CommandLineManager {
             } else if (command == 2) {
                 fileManager.readAndWriteFileContentYear();
             } else if (command == 3) {
-                if (informationDatabase.monthlyBase.isEmpty() || informationDatabase.yearlyBase.isEmpty()){
+                if (InformationDatabase.monthlyBase.isEmpty() || InformationDatabase.yearlyBase.isEmpty()){
                     System.out.println("Загрузите данные");
                 } else {
                     dataReconciliation.dataReconciliationMonth();

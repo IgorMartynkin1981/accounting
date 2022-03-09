@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 
 public class MonthlyReports {
-    InformationDatabase informationDatabase = new InformationDatabase();
-    ArrayList<Monthly> maxMonthlyReports = informationDatabase.monthlyBase;
+    ArrayList<Monthly> maxMonthlyReports;
+    {
+        maxMonthlyReports = InformationDatabase.monthlyBase;
+    }
 
     void printMaxMonthlyReports(){
         maxPofit();
@@ -14,13 +16,13 @@ public class MonthlyReports {
             for (int i = 1; i<=12; i++) {
                 int maxProfitChek = 0;
                 String maxProfitName = "";
-                for (int j = 0; j < maxMonthlyReports.size(); j++) {
-                    int sumChek = maxMonthlyReports.get(j).sum_of_one * maxMonthlyReports.get(j).quantity;
-                    if ((i == maxMonthlyReports.get(j).month)&&(maxMonthlyReports.get(j).is_expense == false)
-                            &&(sumChek > maxProfitChek)){
-                        maxProfitChek = sumChek;
-                        maxProfitName = maxMonthlyReports.get(j).itemName;
-                    }
+                for (Monthly maxMonthlyReport : maxMonthlyReports) {
+                    int sumChek = maxMonthlyReport.sum_of_one * maxMonthlyReport.quantity;
+                    if (!maxMonthlyReport.is_expense)
+                        if ((i == maxMonthlyReport.month) && (sumChek > maxProfitChek)) {
+                            maxProfitChek = sumChek;
+                            maxProfitName = maxMonthlyReport.itemName;
+                        }
                 }
                 if (maxProfitChek > 0) {
                     System.out.println("В " + i + " месяце самый прибыльный товар '" + maxProfitName
@@ -37,12 +39,12 @@ public class MonthlyReports {
             for (int i = 1; i<=12; i++) {
                 int maxWasteOfMoneyChek = 0;
                 String maxWasteOfMoneyName = "";
-                for (int j = 0; j < maxMonthlyReports.size(); j++) {
-                    int sumChek = maxMonthlyReports.get(j).sum_of_one * maxMonthlyReports.get(j).quantity;
-                    if ((i == maxMonthlyReports.get(j).month)&&(maxMonthlyReports.get(j).is_expense == true)
-                            &&(sumChek > maxWasteOfMoneyChek)){
+                for (Monthly maxMonthlyReport : maxMonthlyReports) {
+                    int sumChek = maxMonthlyReport.sum_of_one * maxMonthlyReport.quantity;
+                    if ((i == maxMonthlyReport.month) && (maxMonthlyReport.is_expense)
+                            && (sumChek > maxWasteOfMoneyChek)) {
                         maxWasteOfMoneyChek = sumChek;
-                        maxWasteOfMoneyName = maxMonthlyReports.get(j).itemName;
+                        maxWasteOfMoneyName = maxMonthlyReport.itemName;
                     }
                 }
                 if (maxWasteOfMoneyChek > 0) {
